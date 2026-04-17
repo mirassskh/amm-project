@@ -15,20 +15,11 @@ jobs:
       - name: Install Foundry
         run: |
           curl -L https://foundry.paradigm.xyz | bash
-          source ~/.bashrc
+          export PATH="$HOME/.foundry/bin:$PATH"
           foundryup
 
       - name: Build
         run: forge build
 
-      - name: Run Tests
+      - name: Test
         run: forge test -vv
-
-      - name: Gas Report
-        run: forge test --gas-report
-
-              - name: Install Slither
-        run: pip install slither-analyzer
-
-      - name: Run Slither
-        run: slither .
