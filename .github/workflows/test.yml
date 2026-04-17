@@ -9,17 +9,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Install Foundry
         run: |
           curl -L https://foundry.paradigm.xyz | bash
           export PATH="$HOME/.foundry/bin:$PATH"
-          foundryup
+          ~/.foundry/bin/foundryup
+
+      - name: Verify Foundry
+        run: ~/.foundry/bin/forge --version
 
       - name: Build
-        run: forge build
+        run: ~/.foundry/bin/forge build
 
       - name: Test
-        run: forge test -vv
+        run: ~/.foundry/bin/forge test -vv
