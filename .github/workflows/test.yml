@@ -1,4 +1,3 @@
-name: Foundry CI
 
 on:
   push:
@@ -9,19 +8,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Install Foundry
-        run: |
-          curl -L https://foundry.paradigm.xyz | bash
-          export PATH="$HOME/.foundry/bin:$PATH"
-          ~/.foundry/bin/foundryup
+      - uses: foundry-rs/foundry-toolchain@v1
 
-      - name: Verify Foundry
-        run: ~/.foundry/bin/forge --version
+      - name: Install deps
+        run: forge install
 
       - name: Build
-        run: ~/.foundry/bin/forge build
+        run: forge build
 
       - name: Test
-        run: ~/.foundry/bin/forge test -vv
+        run: forge test -vv
+
+      - name: Gas report
+        run: forge test --gas-report
+
+      - name: Install Slither
+        run: pip install slither-analyzer
+
+      - name: Run Slither
+        run: slither .  || true
